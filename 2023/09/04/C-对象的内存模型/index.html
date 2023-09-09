@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>C++ 对象的内存模型 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. C++ 对象的内存模型类是创建对象的模板，不占用内存空间，不存在于编译后的可执行文件中；而对象是实实在在的数据，需要内存来存储。对象被创建时会在栈区或者堆区分配内存。直观的认识是，如果创建了10个，就要分别为这10个对象的成员变量和成员函数分配内存，如图:(需要画个简图) 不同的对象的成员变量的值可能不同，需要单独分配内存在存储。但是不同对象的成员函数的代码是一样的，上面的内存模型保存了10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 对象的内存模型">
+<meta property="og:url" content="http://example.com/2023/09/04/C-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. C++ 对象的内存模型类是创建对象的模板，不占用内存空间，不存在于编译后的可执行文件中；而对象是实实在在的数据，需要内存来存储。对象被创建时会在栈区或者堆区分配内存。直观的认识是，如果创建了10个，就要分别为这10个对象的成员变量和成员函数分配内存，如图:(需要画个简图) 不同的对象的成员变量的值可能不同，需要单独分配内存在存储。但是不同对象的成员函数的代码是一样的，上面的内存模型保存了10">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-09-04T14:33:40.000Z">
+<meta property="article:modified_time" content="2023-09-06T12:43:24.759Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-C-对象的内存模型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/04/C-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-09-04T14:33:40.000Z" itemprop="datePublished">2023-09-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      C++ 对象的内存模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-C-对象的内存模型"><a href="#1-C-对象的内存模型" class="headerlink" title="1. C++ 对象的内存模型"></a>1. C++ 对象的内存模型</h1><p>类是创建对象的模板，不占用内存空间，不存在于编译后的可执行文件中；而对象是实实在在的数据，需要内存来存储。对象被创建时会在栈区或者堆区分配内存。<br>直观的认识是，如果创建了10个，就要分别为这10个对象的成员变量和成员函数分配内存，如图:(需要画个简图)</p>
+<p>不同的对象的成员变量的值可能不同，需要单独分配内存在存储。但是不同对象的成员函数的代码是一样的，上面的内存模型保存了10份相同的代码，浪费了不少空间，可以将这些代码片段压缩成一份。</p>
+<p>事实上编译器也是这样做的，编译器会将成员变量和成员函数分开来存储：分别为每个对象的成员变量分配内存，但是所有对象都共享同一段函数代码。</p>
+<p>成员变量在堆区或者栈区分配内存，成员函数在代码区分配内存。</p>
+<h1 id="2-C-函数编译原理和成员函数的实现"><a href="#2-C-函数编译原理和成员函数的实现" class="headerlink" title="2. C++函数编译原理和成员函数的实现"></a>2. C++函数编译原理和成员函数的实现</h1><p> 从上节的分析中可以看出，对象的内存中只保留了成员变量，除此之外没有任何其他信息，程序运行时不知道stu的类型为Student，也不知道它还有四个成员函数setname，setage，setscore，show，C++究竟是如何通过对象调用成员函数的呢</p>
+<h2 id="2-1-C-函数的编译"><a href="#2-1-C-函数的编译" class="headerlink" title="2.1 C++函数的编译"></a>2.1 C++函数的编译</h2><p> C++和C语言的编译方式不同，C语言中的函数在编译时名字不变，或者只是简单的加一个下划线，（不同的编译器有不同的现实），例如，fun()编译后为func()或者_func()。</p>
+<p> 而C++中的函数在编译时会根据它所在的命名空间、它所属的类，以及它的参数列表（也叫参数签名）等信息进行重新命名，形成一个新的函数名。这个新的函数名只有编译器知道，对用户是不可见的。对函数重命名的过程叫做名字编码(Name Mangling)，是通过一种特殊的算法来实现的。</p>
+<p> 这种编译算法是可逆的，既可以通过现有函数名计算出新函数名，也可以通过新函数名逆向推演出原有函数名，Name Mangling可以确保新函数名的唯一性，只有函数所在的命名空间、所属的类、包含的参数列表等有一个不同，最后产生的新函数名也不同。</p>
+<h2 id="2-2-成员函数的调用"><a href="#2-2-成员函数的调用" class="headerlink" title="2.2 成员函数的调用"></a>2.2 成员函数的调用</h2><p> 从上面可知，成员函数最终被编译成与对象无关的全局函数，如果函数体中没有成员变量，那问题就很简单，不用对函数做处理，直接调用就可以。</p>
+<p> 如果成员函数中使用到了成员变量该怎么办呢？成员变量的作用域不是全局，不经过任何处理就无法在函数内部访问。<br> C++规定,编译成员函数时要额外添加一个参数,把当前对象的指针传递进去,通过指针来访问成员变量。</p>
+<p> 这样通过传递对象指针就完成了成员函数和成员变量的关联。这与我们从表面上看到的刚好相反，通过对象调用成语函数时，不是用过对象找函数，而是通过函数找对象。</p>
+<p>这一切都是隐式完成的，对程序员来说完全透明，就好像这个额外的参数不存在一样。</p>
+<p>最后需要提示的是， Demo*const中的const表示指针不能被修改，p只能指向当前对象，不能指向其他对象。</p>
+<p>————————————————————————————最美的不是下雨天，是曾与你躲过雨的屋檐</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/09/04/C-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" data-id="clmblic8700001ku8fstr6vfx" data-title="C++ 对象的内存模型" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/09/06/C-%E7%BB%A7%E6%89%BF%E4%B8%8E%E6%B4%BE%E7%94%9F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++ 继承与派生
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C/" style="font-size: 10px;">C++</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/09/09/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/06/C-%E7%BB%A7%E6%89%BF%E4%B8%8E%E6%B4%BE%E7%94%9F/">C++ 继承与派生</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/04/C-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">C++ 对象的内存模型</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
