@@ -276,6 +276,93 @@
 
 
   
+    <article id="post-C-随笔" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/06/C-%E9%9A%8F%E7%AC%94/">C++ 随笔</a>
+    </h1>
+  
+
+        
+        <a href="/2023/09/06/C-%E9%9A%8F%E7%AC%94/" class="archive-article-date">
+  	<time datetime="2023-09-06T12:47:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="C-成员对象和封闭类详解"><a href="#C-成员对象和封闭类详解" class="headerlink" title="C++成员对象和封闭类详解"></a>C++成员对象和封闭类详解</h1><p>一个类的成员变量如果是另一个类的对象,就称之为”成员对象”。包含成员对象的类叫封闭类。</p>
+<h2 id="成员对象的初始化"><a href="#成员对象的初始化" class="headerlink" title="成员对象的初始化"></a>成员对象的初始化</h2><p>创建封闭类的对象时，它包含的成员对象也需要被创建，这就会引发成员对象构造函数的调用。如何让编程器知道，成员对象到底时用哪个构造函数初始化的呢？这就需要借助封闭类构造函数的初始化列表。<br>构造函数初始化列表的写法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">类名::构造函数名(参数表)：成员变量1（参数表），成员变量（参数表）</span><br><span class="line">&#123;</span><br><span class="line">    //TODO:</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对于基本类型的成员变量，“参数表”中只有一个值，就是初始值，在调用钩爪函数时，就把这个初始值直接赋给成员变量。</p>
+<h1 id="this指针到底是什么"><a href="#this指针到底是什么" class="headerlink" title="this指针到底是什么"></a>this指针到底是什么</h1><p>this指针实际上是成员函数的一个形参，在调用成员函数时将对象的地址作为实参传递给this。不过this这个形参是隐式的，它并不出现在代码中，而是在编译阶段由编译器默默地将它添加到参数列表中。</p>
+<p>this作为隐式形参，本质上是成员函数的局部变量，所以只能用在成员函数的内部，并且只有在通过对象调用成员函数时才给this赋值。</p>
+<p>在C++函数编译原理和成员函数的实现一节中讲到,成员函数最终被编译成与对象无关的普通函数,除了成员变量,会丢失所有信息,所以编译时要在成员函数中添加一个额外的参数,把当前对象的首地址传入,以此来关联成员函数和成员变量.这个额外的参数,实际上就是this,他是成员函数和成员变量关联的桥梁。</p>
+<h1 id="static和const和友元函数填坑"><a href="#static和const和友元函数填坑" class="headerlink" title="static和const和友元函数填坑"></a>static和const和友元函数填坑</h1><h1 id="C-class和struct到底有什么区别"><a href="#C-class和struct到底有什么区别" class="headerlink" title="C++ class和struct到底有什么区别"></a>C++ class和struct到底有什么区别</h1><p>C++中保留了C语言的struct关键字,并加以扩充。在C语言中，struct中只能包含成员变量，不能包含成员函数。而在C++中，struct类似于class，既可以包含成员变量，又可以包含成员函数。<br>C++中的struct和class基本时通用的,唯有几个细节不同:</p>
+<ul>
+<li>使用class时，类中的成员默认都是private属性的；而使用struct时，结构体中的成员默认都是public属性的。</li>
+<li>class继承默认时private继承，而struct继承默认时public继承</li>
+<li>class可以使用模板，而struct不能。</li>
+</ul>
+<p>C++没有抛弃C语言中的struct关键字，其意义就在于给C语言程序开发人员有一个归属感,并且能让C++编译器兼容以前C语言开发出来的项目。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/09/06/C-%E9%9A%8F%E7%AC%94/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-C-对象的内存模型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -334,6 +421,100 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/09/04/C-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-C-封装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/03/C-%E5%B0%81%E8%A3%85/">C++ 封装</a>
+    </h1>
+  
+
+        
+        <a href="/2023/09/03/C-%E5%B0%81%E8%A3%85/" class="archive-article-date">
+  	<time datetime="2023-09-03T13:58:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="深入浅出-C-封装"><a href="#深入浅出-C-封装" class="headerlink" title="深入浅出 C++封装"></a>深入浅出 C++封装</h1><h2 id="1-什么是封装"><a href="#1-什么是封装" class="headerlink" title="1.什么是封装"></a>1.什么是封装</h2><ul>
+<li>C++面向对象的三大特性：封装、继承、多态。封装为特性之一。在类的对象阶段，我们只研究类的封装特性，即将数据和操作数据的方法进行有机结合，隐藏对象的属性和实现细节，仅对外公开接口和对象进行交互。<br>封装本质上是一种管理。通过类把数据和方法都封装到一起。不想给访问的，我们使用protected和private把成员封装起来。开放一些公有的（public）成员函数对成员进行合理的访问。所以封装本质就是一种管理。</li>
+<li>private 关键字的作用在于更好地隐藏类的内部实现，该向外部暴露的借口（能通过对象番访问的成员）都声明为public，不希望外部知道、或者只在内部使用的、或者对外部没有影响的成员，都建议声明为private。</li>
+<li>（红色字体）根据C++软件设计规范,实际项目开发中的成员变量以及只在类内部使用的成员函数(只被成员函数调用的成员函数)都建议声明为private,而只将允许通过对象调用的成员函数声明为public。<br>另外，还有一个关键字，protected，声明为protected的成员在类外也不能通过对象访问，但是在它的派生类内部可以访问。</li>
+</ul>
+<h2 id="2-封装的好处"><a href="#2-封装的好处" class="headerlink" title="2.封装的好处"></a>2.封装的好处</h2><ul>
+<li>保护隐私——把不想让外界知道的部分隐藏起来，</li>
+<li>隔离复杂度——把程序中复杂的实现隐藏起来，对外提供一个简单的接口（方法）来使用私有化内容。</li>
+<li>提高代码的健壮性。</li>
+<li>按照实际需求添加必要的判断。</li>
+</ul>
+<h2 id="3-如何封装"><a href="#3-如何封装" class="headerlink" title="3.如何封装"></a>3.如何封装</h2><p>首先要记住，使用类时，不需要关心其内部实现细节。创建类时，才需要考虑其内部现实细节。<br>例如：<br>普通用户使用手机：只需要学习如何发短信，打电话，拍照等。<br>手机软件开发工程师：需要考虑手机内部的实现细节。</p>
+<ul>
+<li>一般就是将属性私有化，对属性提供对应的set和get方法。</li>
+<li>在属性名前加两个下划线就进行私有化了。<br>为什么要进行私有化？</li>
+<li>可以直接调用，也可以随意修改。</li>
+<li>修改后不满足实际生活需求,就出现bug，不能让外界随意修改。</li>
+<li>简单来说，就是修改前先加个条件判断下，满足条件才让你修改。</li>
+</ul>
+<h2 id="4-封装的基本概念"><a href="#4-封装的基本概念" class="headerlink" title="4.封装的基本概念"></a>4.封装的基本概念</h2><p>根据经验，并不类的每个属性都是对外公布的<br>如：女孩纸不希望外人知道自己的体重和年龄。男孩子不希望别人知道自己的身高和收入。<br>而一些类的属性是对外公布的<br>如：人的姓名，学历，国籍等<br>必须在类的表示法中定义属性和行为的公开级别，类似文件系统中的文件权限。</p>
+<h2 id="5-类的封装小结"><a href="#5-类的封装小结" class="headerlink" title="5.类的封装小结"></a>5.类的封装小结</h2><p>类通常可以分为使用方式和内部细节两部分，类的封装机制使得使用方式和内部细节相分离。<br>C++中通过定义类成员的访问界限来实现封装机制<br>public成员可以在类的内部和外界访问和调用<br>private成员只能在类的内部被访问和调用。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/09/03/C-%E5%B0%81%E8%A3%85/">展开全文 >></a>
         </p>
       
 
