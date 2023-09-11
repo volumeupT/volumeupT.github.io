@@ -152,6 +152,68 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-C-多态与虚函" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/09/11/C-%E5%A4%9A%E6%80%81%E4%B8%8E%E8%99%9A%E5%87%BD/">C++ 多态与虚函</a>
+    </h1>
+  
+
+        
+        <a href="/2023/09/11/C-%E5%A4%9A%E6%80%81%E4%B8%8E%E8%99%9A%E5%87%BD/" class="archive-article-date">
+  	<time datetime="2023-09-11T13:55:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/09/11/C-%E5%A4%9A%E6%80%81%E4%B8%8E%E8%99%9A%E5%87%BD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-C-继承与派生" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -235,8 +297,14 @@
 <p>本例中，Base 类的func()、func(int)和 Derived 类的func(char *)、func(bool)四个成员函数的名字相同，参数列表不同，他们看似构成了重构，能够通过对象d访问所有的函数，实则不然Derive类的func遮蔽了Base类的func，导致第26、27行代码没有匹配的函数，所以调用失败。</p>
 <p>如果说有重载关系，那么也是Base类的两个func构成重载，而Derive类的两个func构成另外的重载。</p>
 <h2 id="C-类继承时的作用域嵌套，破解C-继承的一切秘密"><a href="#C-类继承时的作用域嵌套，破解C-继承的一切秘密" class="headerlink" title="C++类继承时的作用域嵌套，破解C++继承的一切秘密"></a>C++类继承时的作用域嵌套，破解C++继承的一切秘密</h2><p>类其实也是一种作用域，每个类都会定义它自己的定义域，在这个作用域内我们在定义类的成员，这一点我们在《类其实也是一种作用域》中讲到。当存在继承关系时，派生类的作用域嵌套在基类的作用域之内，如果一个名字在派生类的作用域内无法找到，编译器就是到外层的基类作用域中查找该名字的定义。</p>
-<p>换句话说，作用域能够包含彼此，被包含的（或者说被嵌套）的作用域称为内层作用域，包含着别的作用域的作用域称为外层作用域。一旦在外层作用域中声明了某个名字，那么它所嵌套着的所有内层作用域都能访问这个名字。</p>
-
+<p>换句话说，作用域能够包含彼此，被包含的（或者说被嵌套）的作用域称为内层作用域，包含着别的作用域的作用域称为外层作用域。一旦在外层作用域中声明了某个名字，那么它所嵌套着的所有内层作用域都能访问这个名字。同时，允许在内层作用域中重新定义外层作用域中已有的名字。<br>假设Base是基类，Derived是派生类，那么他们的作用域的潜逃关系如下图所示。</p>
+<p>派生类的作用域位于基类作用域之内这一事实可能有点出人意料。毕竟在我们的代码中派生类和基类的定义是相互分离的。不过也恰恰因为类作用域这种继承嵌套关系，所以派生类才能像使用自己的成员一样使用基类成员。<br>一个类作用域嵌套的例子：<br>B继承自A，C继承自B，他们作用域的嵌套关系是A为外层，包含B,B又包含C,C为最里层。<br>obj是C类的一个对象,通过obj访问成员变量n时,在C类的作用域中就能够找到n这个名字。虽然A类和B类中都有名字n，但编译器不会到他们的作用域中查找，所以时不可见的，也即派生类中的n遮蔽了基类中的n。</p>
+<p>通过obj访问成员函数func()时，在C类的作用域中没有找到func这个名字,编译器继续在B类的作用域（外层作用域）中查找，仍然没有找到，再继续在A的作用域中查找，结果就发现了AA这个名字,于是结束查找，编译器决定调用A类作用域中的func()函数。</p>
+<p>这个过程叫名字查找，也就在作用域中查找与所用名字最匹配的声明（或定义）的过程。</p>
+<p>对于成员变量这个过程很好理解，对于成员函数要引起注意，编译器仅仅是根据函数的名字来查找的，不会理会函数的参数。换句话说，一旦内层作用域有同名的函数，不管有几个，编译器都不会再到外层作用域中查找，编译器仅把内层作用域中的这些同名函数作为一组候选函数，这组候选函数就是一组重载函数。</p>
+<p>说白了，只有一个作用域内的同名函数才会具有重载关系，不同作用域的同名函数是会造成遮蔽。使得外层函数无效。派生类和基类拥有不同的作用域，所以他们的同名函数不具有重载关系。</p>
+<p>我们再来看一个例子：虽然Derived类和Base类都有同名的func函数，但他们位于不同的作用域，Derived类的func会遮蔽Base类的func。d是Derived类的对象，调用func函数时，编译器会现在Derived类中查找func这个名字，发现有两个，但是参数不同，这就是一组候选函数。<br>执行到26，27行时，在候选函数中没有找到匹配的函数，所以调用失败，这时编译器会抛出错误信息，而不是再到Base类中查找同名函数。</p>
+<h2 id="1-5-C-继承时的对象内存模型（169页）"><a href="#1-5-C-继承时的对象内存模型（169页）" class="headerlink" title="1.5 C++继承时的对象内存模型（169页）"></a>1.5 C++继承时的对象内存模型（169页）</h2>
       
 
       
